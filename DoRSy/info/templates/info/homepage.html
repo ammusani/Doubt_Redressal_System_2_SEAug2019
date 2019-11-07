@@ -35,7 +35,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link text-capitalize">{{ request.user.student.name }}</a>
+                <a class="nav-link">{{ request.user.student }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
@@ -50,7 +50,7 @@
 
       <!-- Jumbotron Header -->
       <header class="jumbotron my-4">
-        <h1 class="display-3 text-capitalize">Welcome {{ request.user.student.name }}</h1>
+        <h1 class="display-6">Welcome {{ request.user.student }}</h1>
       </header>
 
       <!-- Page Features -->
@@ -62,7 +62,7 @@
               <div class="card-body">
               <h4 class="card-title">Your Courses</h4>
               <p class="card-text">Go to the course you want to ask questions about.</p>
-              <a href="/nopageerror" class="btn btn-lg btn-success">View Courses</a>
+              <a class="btn btn-lg btn-success" role="button" href="{% url 'viewcourse' request.user.student.id %}">View Courses</a>
             </div>
             <div class="card-footer">
                 
@@ -76,7 +76,7 @@
               <div class="card-body">
               <h4 class="card-title">Your Questions</h4>
               <p class="card-text">View the questions you have raised. </p>
-              <a href="/nopageerror" class="btn btn-lg btn-success">View Questions</a>
+              <a role="button" href="{% url 'personalques' request.user.student.id %}" class="btn btn-lg btn-success">View Questions</a>
             </div>
             <div class="card-footer">
                 
@@ -90,7 +90,7 @@
               <div class="card-body">
               <h4 class="card-title">Your Answers</h4>
               <p class="card-text">View the answers you have provided.</p>
-              <a href="/nopageerror" class="btn btn-lg btn-success">View Answers</a>
+              <a role="button" href="{% url 'personalans' request.user.student.id %}" class="btn btn-lg btn-success">View Answers</a>
             </div>
             <div class="card-footer">
                

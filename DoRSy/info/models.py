@@ -1,9 +1,9 @@
 from django.db import models
 import math
+import datetime
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save, post_delete
-from datetime import timedelta, date
 
 # Create your models here.
 sex_choice = (
@@ -26,6 +26,21 @@ test_name = (
     ('Quiz 2', 'Quiz 2'),
     ('Mid Sem', 'Mid Sem'),
     ('End Sem', 'End Sem')
+)
+
+days = {
+	'Sunday' : 0,
+    'Monday': 1,
+    'Tuesday': 2,
+    'Wednesday': 3,
+    'Thursday': 4,
+    'Friday': 5,
+    'Saturday': 6,
+}
+
+sem_type = (
+	('Even', 'Even'),
+	('Odd', 'Odd'),
 )
 
 
@@ -52,7 +67,7 @@ class Dept(models.Model):
 
 
 class Course(models.Model):
-    dept = models.ForeignKey(Dept, on_delete=models.CASCADE)
+    dept = models.ForeignKey(Dept, on_delete=models.CASCADE, default=1)
     id = models.CharField(primary_key='True', max_length=50)
     name = models.CharField(max_length=50)
 
@@ -60,70 +75,78 @@ class Course(models.Model):
         return self.name
 
 
-class Class(models.Model):
-    id = models.CharField(primary_key='True', max_length=100)
-    dept = models.ForeignKey(Dept, on_delete=models.CASCADE)
-    sem = models.IntegerField()
-    year = models.IntegerField(default=2019)
-
-    class Meta:
-        verbose_name_plural = 'classes'
-
-    def __str__(self):
-        d = Dept.objects.get(name=self.dept)
-        return '%s : %d %d' % (d.name, self.sem, self.year)
-
-
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, default=1)
-    USN = models.CharField(primary_key='True', max_length=100)
-    name = models.CharField(max_length=200)
     sex = models.CharField(max_length=50, choices=sex_choice, default='Male')
+    dept = models.ForeignKey(Dept, on_delete=models.CASCADE, default=1)
+    id = models.CharField(primary_key='True', max_length=100, default=1)
+    batch = models.IntegerField(default=2019)
     DOB = models.DateField(default='1999-01-01')
 
     def __str__(self):
-        return self.name
+        d = User.objects.get(username=self.user)
+        return '%s : %s' % (d.get_full_name(), self.id)
 
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     id = models.CharField(primary_key=True, max_length=100)
     dept = models.ForeignKey(Dept, on_delete=models.CASCADE, default=1)
-    name = models.CharField(max_length=100)
     sex = models.CharField(max_length=50, choices=sex_choice, default='Male')
     DOB = models.DateField(default='1980-01-01')
 
     def __str__(self):
-        return self.name
+        d = User.objects.get(username=self.user)
+        return '%s : %s' % (d.get_full_name(), self.id)
 
 
-class Assign(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+class Class(models.Model):
+    id = models.CharField(primary_key='True', max_length=100)
+    course = models.OneToOneField(Course, on_delete=models.CASCADE, null=True)
+    sem = models.CharField(max_length=50, choices=sem_type, default='Odd')
+    year = models.IntegerField(default=2019)
+    teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE, null=True)
 
     class Meta:
-        unique_together = (('course', 'class_id', 'teacher'),)
+        verbose_name_plural = 'classes'
 
     def __str__(self):
-        a = Class.objects.get(id=self.class_id_id)
-        b = Course.objects.get(id=self.course_id)
-        c = Teacher.objects.get(id=self.teacher_id)
-        return '%s : %s : %s' % (a.name, b.name, c.name)
+        d = Course.objects.get(name=self.course)
+        return '%s : %s %d' % (d.name, self.sem, self.year)
 
 
 class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_class = models.ForeignKey(Class, on_delete=models.CASCADE, default=1)
 
     class Meta:
-        unique_together = (('student', 'course'),)
+        unique_together = (('student', 'course_class'))
 
     def __str__(self):
-        sname = Student.objects.get(name=self.student)
-        cname = Course.objects.get(name=self.course)
-        return '%s : %s' % (sname.name, cname.name)
+        return '%s : %s' % (self.student, self.course_class)
+
+
+class Question(models.Model) :
+	id = models.AutoField(primary_key=True)
+	q_class = models.ForeignKey(Class, on_delete=models.CASCADE, default=1)
+	content = models.CharField(max_length=1000)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+	date = models.DateTimeField()
+	answered = models.IntegerField(default=0)
+
+	def __str__(self):
+		return '%s' % (self.id)
+
+
+class Answer(models.Model):
+	id = models.AutoField(primary_key=True)
+	ques = models.ForeignKey(Question, on_delete=models.CASCADE, default=1)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+	date = models.DateTimeField(auto_now=True)
+	content = models.CharField(max_length=10000)
+
+	def __str__(self):
+		return '%s' % (self.id)
 
 
 # Triggers
@@ -133,11 +156,3 @@ def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-days = {
-    'Monday': 1,
-    'Tuesday': 2,
-    'Wednesday': 3,
-    'Thursday': 4,
-    'Friday': 5,
-    'Saturday': 6,
-}

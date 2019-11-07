@@ -35,7 +35,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link text-capitalize">{{ request.user.teacher.name }}</a>
+                <a class="nav-link">{{ request.user.teacher }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
@@ -50,7 +50,7 @@
 
       <!-- Jumbotron Header -->
       <header class="jumbotron my-4">
-        <h1 class="display-3 text-capitalize">Welcome {{ request.user.teacher.name }}</h1>
+        <h1 class="display-6">Welcome {{ request.user.teacher }}</h1>
       </header>
 
       <!-- Page Features -->
@@ -63,7 +63,7 @@
               <p class="card-text">Go to the courses of your department.</p>
             </div>
             <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="/nopageerror">View Courses</a>
+                <a class="btn btn-primary" role="button" href="{% url 't_viewcourse' request.user.teacher.id %}">View Courses</a>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
               <p class="card-text">Go to the classes you take.</p>
             </div>
             <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="/nopageerror">View Classes</a>
+                <a class="btn btn-primary" role="button" href="{% url 't_viewclass' request.user.teacher.id %}">View Classes</a>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
               <p class="card-text">View the questions you have raised. </p>
             </div>
             <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="/nopageerror">View Questions</a>
+                <a class="btn btn-primary" role="button" href="{% url 't_personalques' request.user.teacher.id %}">View Questions</a>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
               <p class="card-text">View the answers you have provided.</p>
             </div>
             <div class="card-footer">
-              <a href="/nopageerror" class="btn btn-primary">View Answers</a>
+              <a role="button" class="btn btn-primary" href="{% url 't_personalans' request.user.teacher.id %}">View Answers</a>
             </div>
           </div>
         </div>
