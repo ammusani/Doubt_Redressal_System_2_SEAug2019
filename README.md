@@ -11,7 +11,7 @@ iii. Latest version of Chrome or Firefox.
 
 To start the program apply the following commands in your terminal, when at the location of the root folder:
 
-i.   cd 2_R3/Doubt_Redressal-System_2_SEAug2019/DoRSy
+i.   cd 2_RollNumber/Doubt_Redressal-System_2_SEAug2019/DoRSy
 ii.  python3 manage.py runserver
 iii. For normal access of teacher/student open your browser and go to the following link: http://127.0.0.1:8000/
     
