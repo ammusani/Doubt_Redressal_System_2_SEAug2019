@@ -1,0 +1,54 @@
+{% extends 'info/base.html' %}
+    {% load static %}
+
+    {% block content %}
+                  <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered text-left" id="dataTable" width="100%" cellspacing="0">
+                  <thead class="thead-light ">
+                    <tr>
+                        <th>Questions Answered</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for a in att_list %}
+                    <tr>
+                        <td><div class="text-success d-inline-flex"><font size="2">{{a.ques.q_class}}</font></div><br><font size="2">{{a.ques.id}} : </font>
+                          {% if a.ques.answered > 0 %}
+                            <a href="{% url 'viewpersonalans' a.id request.user.student.id %}" class="text-danger">{{ a.ques.content }}</a>
+                          {% else %}
+                            <a href="{% url 'viewpersonalans' a.id request.user.student.id %}" class="text-info">{{ a.ques.content }}</a>
+                          {% endif %}
+                          <font size="2">
+                          <div class="container text-secondary">
+
+                            <div class="row">
+                               <div class="col"> Answers : 
+                          {{a.ques.answered}}</div>
+                              <div class="col" align="right">
+                                {% if a.ques.user.is_teacher %}
+                                  {{a.ques.user.teacher}} &nbsp;
+                                {% endif %}
+                                {% if a.ques.user == request.user %}
+                                  {{a.ques.user.student}} &nbsp;
+                                {% endif %}
+                          {{a.ques.date}}</div></div></div>
+                          <div align="right"> Answered at {{a.date}}</div></font>
+                        </td>
+                    </tr>
+                    {% empty %}
+                            <p>You have not answered any question.</p>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+    {% endblock %}
+

@@ -1,0 +1,25 @@
+------
+Ubuntu
+------
+
+1. Go inside the DoRSy folder. 
+2. In the terminal, execute one of the following(a or b) commands:
+	a.	1. sudo apt-get install python3
+		2. sudo apt-get install python3-pip
+		3. pip3 install django
+		4. python3 manage.py runserver
+	b.	make
+3. Open your browser and go to the following link: http://127.0.0.1:8000/
+
+
+-------
+Windows
+-------
+
+1. To install Python on your machine go to https://python.org/downloads/. The website should offer you a download button for the latest Python version. Download the executable installer and run it. Check the box next to Add Python 3.5 to PATH and then click Install Now.
+2. To install pip on your machine, go to https://pip.pypa.io/en/latest/installing/, and follow the Installing with get-pip.py instructions.
+3. In the command prompt, execute the following command:
+	pip install django
+4. Go inside the DoRSy folder and execute the following command :
+	python3 manage.py runserver
+5. Open your browser and go to the following link: http://127.0.0.1:8000/

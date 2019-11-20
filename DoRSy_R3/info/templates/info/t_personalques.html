@@ -1,0 +1,44 @@
+{% extends 'info/base.html' %}
+    {% load static %}
+
+    {% block content %}
+                  <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered text-left" id="dataTable" width="100%" cellspacing="0">
+                  <thead class="thead-light ">
+                    <tr>
+                        <th>Questions Asked</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for a in att_list %}
+                    <tr>
+                        <td><div class="text-success d-inline-flex"><font size="2">{{a.q_class}}</font></div><br><font size="2">{{a.id}} : </font>
+                          {% if a.answered > 0 %}
+                            <a href="{% url 't_viewques' a.id request.user.teacher.id 0 %}" class="text-danger">{{ a.content }}</a>
+                          {% else %}
+                            <a href="{% url 't_viewques' a.id request.user.teacher.id 0 %}" class="text-info">{{ a.content }}</a>
+                          {% endif %}
+                          <font size="2">
+                          <div class="container text-secondary">
+                            <div class="row">
+                              <div class="col"> Answers : 
+                          {{a.answered}}</div>
+                              <div class="col" align="right">
+                          {{a.date}}</div></div></div></font></td>
+                    </tr>
+                    {% empty %}
+                            <p>You have not asked any question.</p>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+    {% endblock %}

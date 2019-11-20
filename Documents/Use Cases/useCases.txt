@@ -1,0 +1,29 @@
+1. To increase users Admin can create users.
+2. To create a user admin needs first_name, last_name and email.
+3. Admin creates a users and assigns a Username and Password.
+
+4. Admin creates department with Department ID, Department Name, so users can be assigned to a department.
+
+5. After creation of a Student user, admin feeds in the information: sex, DOB, Dept., Roll Number and Batch.
+6. After creation of a Teacher user, admin feeds in the information: ID, Dept., Sex and DOB
+
+
+7. Admin creates Course with Department, Course ID, Course Name, so specific classes can be created.
+
+8. Admin creates a class with class ID, course Name, Semester(O/E), Year, so Teachers can be assigned to each class.
+
+9. Admin assigns a teacher/s to each class, so they manage the student activities in that class.
+
+10. After assignment of a teacher, admin adds all the students enrolled in the class.
+
+11. User goes to list of his courses to find a relevant course.
+
+12. User finds his course, goes to the course question stream to ask/find/answer questions.
+
+13. User clicks on a question to go to question page to view/answer the question.
+
+14. User on question page can view answers or can write and answer and post it.
+
+15. User when course streams clicks on Post Question to ask a question.
+
+
