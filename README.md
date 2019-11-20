@@ -28,3 +28,9 @@ iv. For admin access open your browser with the following link: http://127.0.0.1
     Admin:
     username: admin
     password: cs17b022
+
+For any other doubts please refer to installation_details.txt
+
+All other documents are in the Documents folder.
+
+The document on individual contribution and repository link is named 2_link_contribution.
